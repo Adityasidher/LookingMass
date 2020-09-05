@@ -1,0 +1,357 @@
+#: import Factory kivy.factory.Factory
+#: import pathlib pathlib
+#: import drivepath drivepath
+#: import classdefs classdefs
+
+<Widgets>:
+    FloatLayout:
+        Button:
+            pos_hint: {"x":0.1, "y":5.4}
+            size_hint: 2.0, 0.5
+            text: "Select Source"
+            on_release: root.selectSource()
+        Button:
+            pos_hint: {"x":0.1, "y":4.9}
+            size_hint: 2.0, 0.5
+            text: "Select Destination"
+            on_release: root.selectDestination()
+#       Button:
+#           pos_hint: {"x":0.1, "y":4.9}
+#           size_hint: 2.0, 0.5
+#           text: "Show Image"
+#           on_release: root.showPreImage()
+        Button:
+            pos_hint: {"x":0.1, "y":4.4}
+            size_hint: 2.0, 0.5
+            text: "Enter Metadata"
+            on_release: root.requestMetadata()
+        Button:
+            pos_hint: {"x":0.1, "y":3.9}
+            size_hint: 2.0, 0.5
+            text: "Lensing Coordinate Entry"
+            on_release: root.selectCoordinates()
+        Button:
+            pos_hint: {"x":0.1, "y":3.4}
+            size_hint: 2.0, 0.5
+            text: "Process Image"
+            on_release: root.processImage()
+        
+        Label:
+            id: pre_processed_image_label
+            text: "Original Image:"
+            font_size: 36
+            size_hint: 0.6, 0.2
+            pos_hint: {"x":3.4, "y":4.5}
+            opacity: 0
+        Image: 
+            id: pre_processed_image
+            source: ""
+            # keep_ratio: False
+            allow_stretch: True
+            size_hint: 2.5, 2.5
+            pos_hint: {"x":5.4, "y":3.4}
+            opacity: 0
+        Label:
+            id: post_processed_image_label
+            text: "Modified Image:"
+            font_size: 36
+            size_hint: 0.6, 0.2
+            pos_hint: {"x":3.4, "y":1.5}
+            opacity: 0
+        Image: 
+            id: post_processed_image
+            source: ""
+            # keep_ratio: False
+            allow_stretch: True
+            size_hint: 2.5, 2.5
+            pos_hint: {"x":5.4, "y":0.4}
+            opacity: 0
+
+<ImageProcessingStartPopup>:
+    Label:
+        text: "Process Started."
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+
+    Button:
+        id: ok_button
+        text: "OK"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_release: root.end()
+
+<ImageProcessingEndPopup>:
+    Label:
+        text: "Process Finished."
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+
+    Button:
+        id: ok_button
+        text: "OK"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_release: root.end()
+
+<MetadataEntryPopup>:
+    data1: Metadata1.text
+    data2: Metadata2.text
+    data3: Metadata3.text
+    data4: Metadata4.text
+
+#    Label:
+#        text: "Enter Metadata"
+#        size_hint: 0.6, 0.2
+#        pos_hint: {"x":0.2, "top":1}
+
+    Label:
+        text: "Mass of the Gravitational Source:"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.1, "top":1}
+
+    TextInput:
+        pos_hint: {"x":0.2, "top":0.93}
+        size_hint: 0.2, 0.07
+        id: Metadata1
+        text: "4"
+        multiline: False
+        font_size: 12
+
+    Label:
+        text: "(in millions of solar masses)"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.44, "top":.93}
+
+    Label:
+        text: "Distance from Observer to Source:"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.1, "top":0.8}
+
+    TextInput:
+        pos_hint: {"x":0.2, "top":0.73}
+        size_hint: 0.2, 0.07
+        id: Metadata2
+        text: "2.5"
+        multiline: False
+        font_size: 12
+
+    Label:
+        text: "(in millions of lightyears)"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.4, "top":0.73}
+    
+    Label:
+        text: "Distance from Observer to Image:"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.1, "top":0.6}
+
+    TextInput:
+        pos_hint: {"x":0.2, "top":0.53}
+        size_hint: 0.2, 0.07
+        id: Metadata3
+        text: "5"
+        multiline: False
+        font_size: 12
+        
+    Label:
+        text: "(in millions of lightyears)"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.4, "top":0.53}
+
+    Label:
+        text: "Arcwidth of the Image:"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.03, "top":0.4}
+        halign: "left"
+
+    TextInput:
+        pos_hint: {"x":0.2, "top":0.33}
+        size_hint: 0.2, 0.07
+        id: Metadata4
+        text: "1"
+        multiline: False
+        font_size: 12
+
+    Label:
+        text: "(in arcseconds)"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.35, "top":0.33}
+
+    Label:
+        text: "Process all other images this directory:"
+        size_hint: 0.4, 0.05
+        pos_hint: {"x":0.1, "top":0.2}
+
+    Switch:
+        pos_hint: {"x":0.6, "top":0.2}
+        size_hint: 0.4, 0.07
+        id: batch_processing_switch
+        active: False
+        on_active: root.switch_callback(self, self.active) 
+    
+
+#    Label:
+#        text: "Name of Galaxy:"
+#        size_hint: 0.4, 0.05
+#        pos_hint: {"x":0.1, "top":0.5}
+
+#    TextInput:
+#        pos_hint: {"x":0.5, "top":0.5}
+#        size_hint: 0.4, 0.07
+#        id: Metadata4
+#        multiline: False
+#        font_size: 12
+
+#   Label:
+#       text: "Name of Galaxy Cluster:"
+#       size_hint: 0.4, 0.05
+#       pos_hint: {"x":0.1, "top":0.4}
+#
+#   TextInput:
+#       pos_hint: {"x":0.5, "top":0.4}
+#       size_hint: 0.4, 0.07
+#       id: Metadata5
+#       multiline: False
+#       font_size: 12
+
+    Button:
+        text: "Save"
+        size_hint: 0.8, 0.1
+        pos_hint: {"x":0.1, "y":0.0}
+        on_release: root.store_metadata()
+        on_release: root.end()
+
+<CoordinateSelectorPopup>:
+    Image: 
+        id: GravLens_Image
+        source: ""
+        # keep_ratio: False
+        allow_stretch: False
+        size_hint: 0.8, 0.8
+        pos_hint: {"x":0.1, "y":0.13}
+        opacity: 1
+        on_touch_down: root.savePixel()
+
+    Label:
+        text: "Click to apply lensing"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1.05}
+
+    Label: 
+        text: "Pixel Coord"
+        pos_hint: {"x":0.62, "y":0.07}
+        size_hint: 0.4, 0.07
+        font_size: 12
+
+    TextInput:
+        id: fetch_pixelcoord
+        pos_hint: {"x":0.77, "y":0.02}
+        size_hint: 0.1, 0.05
+        id: PixelCoord1
+        text: ""
+        multiline: False
+        font_size: 8
+
+    Button:
+        text: "Back"
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.3, "y":0.01}
+        on_release: root.end()
+
+<LoadDialog>:
+    auto_dismiss: True
+    size_hint: .6,.75
+    BoxLayout:
+        orientation: 'vertical'
+        FileChooserListView:
+            id: fc
+            filters: root.filters
+            # path: app.config.get(md.device_name, 'lib_dir' )
+            path: root.path
+        BoxLayout:
+            size_hint_y: .1
+            Spinner:
+                text:'Drive'
+                values: drivepath.get_drive_names()
+                on_text: fc.path = drivepath.get_path(self.text)
+            Label:
+                # text: 'File Selected: ' + app.just_fname(fc.selection)
+                text_size: self.size
+                halign: 'center'
+                valign: 'center'
+                shorten: True
+                text: 'File: ' + ('<None>' if not fc.selection else pathlib.Path(fc.selection[0]).name)
+        BoxLayout:
+            size_hint_y: .1
+            orientation: 'horizontal'
+            Button:
+                text: 'Load'
+                disabled: 0==len(fc.selection)
+                on_release:
+                    # app.load_presets(fc.selection[0])
+                    print(f'File Selected: {fc.selection[0]}')
+                    root.saveSelection(fc.selection[0])
+                    root.dismiss()
+            Button:
+                text: 'Cancel'
+                on_release: root.dismiss()
+
+<SaveDialog>:
+    # title: 'Save the 16 preset buttons to a preset group file'
+    size_hint: .6,.75
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        FileChooserListView:
+            id: fc
+            filters: root.filters
+            # path: app.config.get(md.device_name, 'lib_dir' )
+            path: root.path
+            on_selection: text_input.text =  self.selection and self.selection[0] or ''
+        Label:
+            size_hint_y: .08
+            text_size: self.size
+            halign: 'center'
+            valign: 'center'
+            shorten: True
+            text: 'File: ' + ('<None>' if not fc.selection else pathlib.Path(fc.selection[0]).name)
+        BoxLayout:
+            size_hint_y: 0.1
+            Spinner:
+                size_hint_x: .25
+                text:'Drive'
+                values: drivepath.get_drive_names()
+                on_text: fc.path = drivepath.get_path(self.text)
+            TextInput:
+                size_hint_x: .75
+                id: text_input
+        BoxLayout:
+            size_hint_y: .1
+            orientation: 'horizontal'
+            Button:
+                text: 'Save'
+                #disabled: 0==len( fc.selection )
+                on_release:
+                    # app.save_presets( text_input.text, fc.path  )
+                    print(f'Write File: Path: {fc.path} file: {text_input.text}')
+                    root.saveDestinationPath(fc.path)
+                    root.saveDestinationName(text_input.text)
+                    root.dismiss()
+            Button:
+                text: 'Cancel'
+                on_release: root.dismiss()
+<ErrorPopup>:
+    Label:
+        id: error_label
+        text: "<No error description provided.>"
+        text_size: self.width, None
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":0.8}
+        height: self.texture_size[1]
+
+    Button:
+        id: ok_button
+        text: "OK"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_release: root.end()

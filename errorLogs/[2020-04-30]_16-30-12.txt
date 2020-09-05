@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "./engine.py", line 157, in <module>
+    myApp.run()
+  File "/usr/local/lib/python3.6/dist-packages/kivy/app.py", line 829, in run
+    root = self.build()
+  File "./engine.py", line 75, in build
+    Window.bind(on_request_close=self.on_request_close)
+AttributeError: 'NoneType' object has no attribute 'bind'
